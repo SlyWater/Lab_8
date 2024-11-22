@@ -142,7 +142,7 @@ void BFSA(node** A, int size, int* vis, int s) {
     }
     for (int i = 0; i < size; ++i) {
         if (!vis[i]) {
-            printf("\n");
+            //printf("\n");
             BFSA(A, size, vis, i);
         }
     }
@@ -177,9 +177,9 @@ int main() {
 
     clock_t start, end;
     setlocale(LC_ALL, "Rus");
-    int n = 10000;
+    int n = 3000;
     int** M1 = NULL;
-    //node** A1 = NULL;
+    node** A1 = NULL;
     //printf("Введите количество вершин: ");
     srand(time(NULL));
 
@@ -187,18 +187,14 @@ int main() {
     int* vis = (int*)malloc(sizeof(int) * n);
 
     M1 = createG(n);
-    //A1 = createAdj(M1, n);
+    A1 = createAdj(M1, n);
     //printf("Граф G1\n");
     //printG(M1, n);
 
     //printAdj(A1, n);
-    //for (int i = 0; i < n; ++i) vis[i] = 0;
-    //BFSA(A1, n, vis, 0);
-    //printf("\n");
 
-    for (int i = 0; i < n; ++i) vis[i] = 0;
     FILE* file = fopen("result.csv", "w");
-
+    for (int i = 0; i < n; ++i) vis[i] = 0;
     start = clock();
     //printf("\n");
     BFS(M1, n, vis, 0);
@@ -207,6 +203,17 @@ int main() {
     float spent_time = (float)(end - start) / CLOCKS_PER_SEC;
     printf("BFS;%.3f;\n", spent_time);
     fprintf(file, "BFS;%.3f;\n", spent_time);
+
+    for (int i = 0; i < n; ++i) vis[i] = 0;
+    start = clock();
+    BFSA(A1, n, vis, 0);
+    end = clock();
+    spent_time = (float)(end - start) / CLOCKS_PER_SEC;
+    printf("BFSA;%.3f;\n", spent_time);
+    fprintf(file, "BFSA;%.3f;\n", spent_time);
+    //printf("\n");
+
+
     for (int i = 0; i < n; ++i) vis[i] = 0;
     start = clock();
     //printf("\n");
